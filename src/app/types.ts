@@ -1,3 +1,5 @@
+// types.ts
+
 export type Token = {
   symbol: string;
   name: string;
@@ -6,27 +8,62 @@ export type Token = {
   price: string;
   change24h: string;
   verified: boolean;
+  address: string;
 };
 
-export type Vault = {
+export type Pool = {
   id: number;
-  pair: string;
-  fee: string;
-  tvl: string;
-  apr: string;
-  volume: string;
-  rewards: string[];
-  risk: string;
-  utilization: number;
+  userAddresss: string; // Note: keeps the typo from Prisma schema
+  t1TokenName: string;
+  t2TokenName: string;
+  t1TokenAddress: string;
+  t2TokenAddress: string;
+  name: string;
+  poolAddress: string;
+  transactions?: Transaction[];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Transaction = {
   id: number;
-  type: string;
-  from: { symbol: string; amount: string };
-  to: { symbol: string; amount: string };
-  time: string;
-  status: string;
+  userAddresss: string; // Note: keeps the typo from Prisma schema
+  fee: string;
+  inputTokenAddress: string;
+  outputTokenAddress: string;
+  inputAmount: string;
+  outputAmount: string;
+  transactionHash: string;
+  createdAt: Date;
+  updatedAt: Date;
+  pool?: Pool;
+  poolId?: number;
+};
+
+export type AIAgent = {
+  id: number;
+  agentAddress: string;
+  agentName: string;
+  ownerAddress: string;
+  seedPhrase: string;
+  walletId: string;
+  positions?: Position[];
+};
+
+export type Position = {
+  id: number;
+  buyTokenAddress: string;
+  networkId: string;
+  sellTokenAddress: string;
+  buyOnPercentage: number;
+  sellOnPercentage: number;
+  buyDcaToken: number;
+  sellDcaToken: number;
+  lastBuyTokenPrice: number;
+  aiAgentId: number;
+  aiAgent?: AIAgent;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const tokens: Token[] = [
@@ -38,6 +75,7 @@ export const tokens: Token[] = [
     price: "$102.45",
     change24h: "+5.2%",
     verified: true,
+    address: "0x...",
   },
   {
     symbol: "USDC",
@@ -47,6 +85,7 @@ export const tokens: Token[] = [
     price: "$1.00",
     change24h: "0%",
     verified: true,
+    address: "0x...",
   },
   {
     symbol: "ETH",
@@ -56,6 +95,7 @@ export const tokens: Token[] = [
     price: "$3,245.67",
     change24h: "-2.1%",
     verified: true,
+    address: "0x...",
   },
   {
     symbol: "WBTC",
@@ -65,73 +105,6 @@ export const tokens: Token[] = [
     price: "$65,432.10",
     change24h: "+1.8%",
     verified: true,
-  },
-];
-
-// Enhanced vaults data
-export const vaults: Vault[] = [
-  {
-    id: 1,
-    pair: "WBTC/ETH",
-    fee: "0.3%",
-    tvl: "$176.8M",
-    apr: "1.91%",
-    volume: "$3.1M",
-    rewards: ["$UNI", "$ETH"],
-    risk: "Medium",
-    utilization: 78,
-  },
-  {
-    id: 2,
-    pair: "USDC/ETH",
-    fee: "0.05%",
-    tvl: "$115.5M",
-    apr: "3.944%",
-    volume: "$25.0M",
-    rewards: ["$UNI"],
-    risk: "Low",
-    utilization: 92,
-  },
-  {
-    id: 3,
-    pair: "ETH/USDT",
-    fee: "0.3%",
-    tvl: "$74.2M",
-    apr: "7.812%",
-    volume: "$5.3M",
-    rewards: ["$UNI", "$ETH"],
-    risk: "Medium",
-    utilization: 65,
-  },
-  {
-    id: 4,
-    pair: "DAI/USDC",
-    fee: "0.01%",
-    tvl: "$69.5M",
-    apr: "0.078%",
-    volume: "$1.5M",
-    rewards: ["$UNI"],
-    risk: "Low",
-    utilization: 45,
-  },
-];
-
-// Mock transaction history
-export const transactionHistory: Transaction[] = [
-  {
-    id: 1,
-    type: "Swap",
-    from: { symbol: "ETH", amount: "0.5" },
-    to: { symbol: "USDC", amount: "1,623.45" },
-    time: "2 mins ago",
-    status: "completed",
-  },
-  {
-    id: 2,
-    type: "Swap",
-    from: { symbol: "USDC", amount: "500" },
-    to: { symbol: "SOL", amount: "4.88" },
-    time: "5 mins ago",
-    status: "completed",
+    address: "0x...",
   },
 ];
